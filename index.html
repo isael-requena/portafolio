@@ -11,6 +11,11 @@
   <!-- Three.js -->
   <script src="https://unpkg.com/three@0.160.0/build/three.min.js" defer></script>
 
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;900&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="styles.css" />
 </head>
 
@@ -19,8 +24,8 @@
   <div class="blue-blobs" aria-hidden="true"></div>
   <div class="grid-overlay" aria-hidden="true"></div>
 
-  <input id="theme-toggle" type="checkbox" aria-label="Cambiar tema" />
-  <label class="theme-switch" for="theme-toggle" title="Cambiar tema"><span>☀️/🌙</span></label>
+  <!-- <input id="theme-toggle" type="checkbox" aria-label="Cambiar tema" />
+  <label class="theme-switch" for="theme-toggle" title="Cambiar tema"><span>☀️/🌙</span></label> -->
 
   <main class="page">
     <header class="nav" id="topNav">
@@ -41,8 +46,10 @@
     <section class="hero">
       <div class="container hero-grid">
         <div>
-          <h1 class="headline reveal">Hola, soy <span class="grad">Isael Requena</span> — <span class="grad">Full‑Stack
-              Developer</span></h1>
+          <h1 class="headline reveal">
+            Hola, soy <span class="grad">Isael Requena</span> — 
+            <span class="grad">Full‑Stack Developer</span>
+          </h1>
           <p class="sub reveal" style="animation-delay:.1s">Tema <strong>océano</strong>: fondo profundo, manchas azules
             con distintas opacidades, blur de vidrio líquido y animación 3D que responde al scroll.</p>
           <div class="cta-row reveal" style="animation-delay:.18s">
@@ -64,8 +71,22 @@
     <section id="sobre" class="reveal">
       <div class="container">
         <h2 class="section-title underline">Sobre mí</h2>
-        <p class="prose">Desarrollador full‑stack orientado a UX moderna. El efecto oceánico usa partículas, ondas y
-          burbujas en Three.js; el UI aplica <em>Liquid Glass</em> para profundidad sin perder legibilidad.</p>
+        <p class="prose">
+          Soy un <b>Desarrollador Full-Stack</b> venezolano con 4 años de experiencia enfocado en la entrega de soluciones web, aplicativos móviles y canales en Roku funcionales y eficientes.
+        </p>
+
+        <p class="prose">
+          Mi trayectoria profesional se ha desarrollado íntegramente en Fibex Telecom, comenzando mi formación en TypeScript, Angular y CSS en 2021. Gracias a un crecimiento acelerado y al Ing. <b>Jhonattan Ramírez</b> como mentor, he transitado roles de Testing y Frontend exclusivo, hasta alcanzar la posición de Full-Stack Developer con dominio en lógica Backend.
+        </p>
+        <p class="prose">
+          Mi mayor logro incluye la responsabilidad directa del desarrollo Frontend y Backend de la pasarela de pagos, demostrando mi capacidad para gestionar proyectos de alta complejidad.
+        </p>
+        <p class="prose">
+          "Todo lo puedo en Cristo que me fortalece."
+          <br>
+          <i>Filipenses 4:13</i>
+          <!-- <i> "Con Dios cada día mejorando, nunca paro de aprender en esta vida" </i>☄️. -->
+        </p>
       </div>
     </section>
 
@@ -133,12 +154,6 @@
             </div>
             <span class="tech-name">Open Ai integrations</span>
           </div>
-          <div class="tech-item" data-tech="express">
-            <div class="tech-icon-wrapper">
-              <img class="tech-icon" src="assets/images/logos/express.png" alt="Express">
-            </div>
-            <span class="tech-name">Express</span>
-          </div>
           <div class="tech-item" data-tech="github">
             <div class="tech-icon-wrapper">
               <img class="tech-icon" src="assets/images/logos/github.png" alt="Github">
@@ -186,12 +201,6 @@
               <img class="tech-icon" src="assets/images/logos/laravel.png" alt="Laravel">
             </div>
             <span class="tech-name">Laravel</span>
-          </div>
-          <div class="tech-item" data-tech="php">
-            <div class="tech-icon-wrapper">
-              <img class="tech-icon" src="assets/images/logos/php.png" alt="Php">
-            </div>
-            <span class="tech-name">Php</span>
           </div>
           <div class="tech-item" data-tech="mysql">
             <div class="tech-icon-wrapper">
@@ -272,7 +281,7 @@
             <div class="timeline-year">2025 - Presente</div>
             <h3 class="timeline-title">Full-Stack Developer</h3>
             <p class="timeline-desc">
-              Promovido a Full-Stack Developer en Fibex Telecom. Fui responsable del desarrollo integral (Frontend y
+              Promovido a Full-Stack Developer en Fibex Telecom. Responsable del desarrollo integral (Frontend y
               Backend) de las pasarelas de pagos para Fibex República Dominicana y Wave.
             </p>
           </div>
@@ -307,7 +316,7 @@
             <div class="timeline-year">2021</div>
             <h3 class="timeline-title">Aprendiz</h3>
             <p class="timeline-desc">
-              Inicio de mi trayectoria a los 15 años de edad, aprendiendo con <b>Jhonattan R.</b> como mentor
+              Inicio de mi trayectoria a los 15 años de edad, aprendiendo con el Ing. <b>Jhonattan Ramírez.</b> como mentor
               <b>TypeScript</b>, <b>Angular</b> y <b>CSS</b> a través de recursos en línea, foros y documentación.
             </p>
           </div>
@@ -319,11 +328,11 @@
           <h3 class="section-title">En números</h3>
           <div class="stats-grid">
             <div class="stat-card">
-              <span class="stat-number">50+</span>
+              <span class="stat-number">20+</span>
               <span class="stat-label">Proyectos Completados</span>
             </div>
             <div class="stat-card">
-              <span class="stat-number">5+</span>
+              <span class="stat-number">4+</span>
               <span class="stat-label">Años de Experiencia</span>
             </div>
             <div class="stat-card">
