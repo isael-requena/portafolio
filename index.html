@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Isael Requena — Full‑Stack</title>
+  <meta name="description"
+    content="Portafolio de Isael Requena, Full‑Stack. Dark-first con animación 3D con Three.js (tema oceánico) y Liquid Glass." />
+
+  <!-- Three.js -->
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js" defer></script>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <canvas id="bg3d" aria-hidden="true"></canvas>
+  <div class="blue-blobs" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <input id="theme-toggle" type="checkbox" aria-label="Cambiar tema" />
+  <label class="theme-switch" for="theme-toggle" title="Cambiar tema"><span>☀️/🌙</span></label>
+
+  <main class="page">
+    <header class="nav" id="topNav">
+      <div class="container bar">
+        <div class="nav-inner">
+          <div class="brand"><span class="dot"></span><span>Isael Requena</span></div>
+          <nav class="nav-links">
+            <a class="chip" href="#sobre">Sobre mí</a>
+            <a class="chip" href="#tecnologias">Tecnologías</a>
+            <a class="chip" href="#proyectos">Proyectos</a>
+            <a class="chip" href="#experiencia">Experiencia</a>
+            <a class="chip" href="#contacto">Contacto</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <h1 class="headline reveal">Hola, soy <span class="grad">Isael Requena</span> — <span class="grad">Full‑Stack
+              Developer</span></h1>
+          <p class="sub reveal" style="animation-delay:.1s">Tema <strong>océano</strong>: fondo profundo, manchas azules
+            con distintas opacidades, blur de vidrio líquido y animación 3D que responde al scroll.</p>
+          <div class="cta-row reveal" style="animation-delay:.18s">
+            <a class="btn primary" href="#proyectos">Ver proyectos</a>
+            <button class="btn" id="openModal" type="button">Abrir modal</button>
+          </div>
+        </div>
+        <aside class="profile-card glass reveal" style="animation-delay:.15s">
+          <div class="viewport" id="profileSlider">
+            <img src="assets/images/profile-photo.png" alt="Isael — perfil" class="active" />
+            <img src="assets/images/photo-technology-on-an-event.png" alt="Evento tech" />
+            <img src="assets/images/photo-programming-machines.jpg" alt="Setup de trabajo" />
+            <span class="tag">Disponible · Remoto / Híbrido</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="sobre" class="reveal">
+      <div class="container">
+        <h2 class="section-title underline">Sobre mí</h2>
+        <p class="prose">Desarrollador full‑stack orientado a UX moderna. El efecto oceánico usa partículas, ondas y
+          burbujas en Three.js; el UI aplica <em>Liquid Glass</em> para profundidad sin perder legibilidad.</p>
+      </div>
+    </section>
+
+    <!-- Nueva sección de tecnologías con efectos especiales -->
+    <section id="tecnologias" class="reveal" style="position:relative">
+      <div class="blur-accent" style="top:10%;left:5%"></div>
+      <div class="blur-accent" style="bottom:10%;right:5%"></div>
+      <div class="container">
+        <h2 class="section-title underline">Tecnologías & Herramientas</h2>
+        <p class="prose">Stack tecnológico con el que trabajo diariamente. Hover sobre cada ícono para ver el nombre.
+        </p>
+
+        <div class="tech-grid">
+          <div class="tech-item" data-tech="typescript">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/typescript.png" alt="Typescript">
+            </div>
+            <span class="tech-name">Typescript</span>
+          </div>
+          <div class="tech-item" data-tech="nodejs">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/nodejs.png" alt="Nodejs">
+            </div>
+            <span class="tech-name">Nodejs</span>
+          </div>
+          <div class="tech-item" data-tech="angular">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/angular.png" alt="Angular">
+            </div>
+            <span class="tech-name">Angular</span>
+          </div>
+          <div class="tech-item" data-tech="react">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/react.png" alt="React">
+            </div>
+            <span class="tech-name">React</span>
+          </div>
+           <div class="tech-item" data-tech="brightscript">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/brightscript.png" alt="Brightscript">
+            </div>
+            <span class="tech-name">Brightscript</span>
+          </div>
+          <div class="tech-item" data-tech="roku">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/roku.png" alt="Roku">
+            </div>
+            <span class="tech-name">Roku</span>
+          </div>
+          <div class="tech-item" data-tech="astro">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/astro.png" alt="Astro">
+            </div>
+            <span class="tech-name">Astro</span>
+          </div>
+           <div class="tech-item" data-tech="javascript">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/javascript.png" alt="Javascript">
+            </div>
+            <span class="tech-name">Javascript</span>
+          </div>
+          <div class="tech-item" data-tech="open-ai">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/open-ai.png" alt="Open Ai">
+            </div>
+            <span class="tech-name">Open Ai integrations</span>
+          </div>
+          <div class="tech-item" data-tech="express">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/express.png" alt="Express">
+            </div>
+            <span class="tech-name">Express</span>
+          </div>
+          <div class="tech-item" data-tech="github">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/github.png" alt="Github">
+            </div>
+            <span class="tech-name">Github</span>
+          </div>
+          <div class="tech-item" data-tech="html">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/html.png" alt="Html">
+            </div>
+            <span class="tech-name">Html</span>
+          </div>
+           <div class="tech-item" data-tech="scss">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/scss.png" alt="Scss">
+            </div>
+            <span class="tech-name">Scss</span>
+          </div>
+          <div class="tech-item" data-tech="css">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/css.png" alt="Css">
+            </div>
+            <span class="tech-name">Css</span>
+          </div>
+          <div class="tech-item" data-tech="ionic">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/ionic.png" alt="Ionic">
+            </div>
+            <span class="tech-name">Ionic</span>
+          </div>
+          <div class="tech-item" data-tech="capacitor">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/capacitor.png" alt="Capacitor">
+            </div>
+            <span class="tech-name">Capacitor</span>
+          </div>
+          <div class="tech-item" data-tech="python">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/python.png" alt="Python">
+            </div>
+            <span class="tech-name">Python</span>
+          </div>
+          <div class="tech-item" data-tech="laravel">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/laravel.png" alt="Laravel">
+            </div>
+            <span class="tech-name">Laravel</span>
+          </div>
+          <div class="tech-item" data-tech="php">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/php.png" alt="Php">
+            </div>
+            <span class="tech-name">Php</span>
+          </div>
+          <div class="tech-item" data-tech="mysql">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/mysql.png" alt="Mysql">
+            </div>
+            <span class="tech-name">Mysql</span>
+          </div>
+          <div class="tech-item" data-tech="postgres">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/postgres.png" alt="Postgres">
+            </div>
+            <span class="tech-name">Postgres</span>
+          </div>
+          <div class="tech-item" data-tech="vscode">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/vscode.png" alt="Vscode">
+            </div>
+            <span class="tech-name">Vscode</span>
+          </div>
+          <div class="tech-item" data-tech="warp">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/warp.png" alt="Warp">
+            </div>
+            <span class="tech-name">Warp</span>
+          </div>
+          <div class="tech-item" data-tech="android-studio">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/android-studio.png" alt="Android Studio">
+            </div>
+            <span class="tech-name">Android Studio</span>
+          </div>
+          <div class="tech-item" data-tech="postman">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/postman.png" alt="Postman">
+            </div>
+            <span class="tech-name">Postman</span>
+          </div>
+           <div class="tech-item" data-tech="dbeaver">
+            <div class="tech-icon-wrapper">
+              <img class="tech-icon" src="assets/images/logos/dbeaver.png" alt="Dbeaver">
+            </div>
+            <span class="tech-name">Dbeaver</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="proyectos" class="reveal">
+      <div class="container">
+        <h2 class="section-title underline">Proyectos destacados</h2>
+        <div class="grid" style="margin-top:18px">
+          <article class="card glass">
+            <h3>Dashboard en tiempo real</h3>
+            <p>Tarjetas con vidrio líquido y foco en densidad de datos.</p>
+            <img class="thumb" src="assets/images/photo-programming-machines.jpg" alt="Pantallas de código" />
+          </article>
+          <article class="card glass">
+            <h3>Experiencia inmersiva</h3>
+            <p>Capas y parallax asistido por Three.js + CSS.</p>
+            <img class="thumb" src="assets/images/photo-technology-on-an-event.png" alt="Ambiente inmersivo" />
+          </article>
+          <article class="card glass">
+            <h3>Portal corporativo</h3>
+            <p>Tokens de diseño, temas y accesibilidad.</p>
+            <img class="thumb" src="assets/images/photo-isael-1.jpg" alt="Retrato" />
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Nueva sección de experiencia con timeline -->
+    <section id="experiencia" class="experience-section reveal">
+      <div class="container">
+        <h2 class="section-title underline">Experiencia</h2>
+        <div class="timeline">
+
+          <div class="timeline-item">
+            <div class="timeline-year">2025 - Presente</div>
+            <h3 class="timeline-title">Full-Stack Developer</h3>
+            <p class="timeline-desc">
+              Promovido a Full-Stack Developer en Fibex Telecom. Fui responsable del desarrollo integral (Frontend y
+              Backend) de las pasarelas de pagos para Fibex República Dominicana y Wave.
+            </p>
+          </div>
+
+          <!-- <div class="timeline-item">
+            <div class="timeline-year">2024</div>
+            <h3 class="timeline-title">Frontend Developer (con enfoque Backend)</h3>
+            <p class="timeline-desc">
+              Incursión en el desarrollo Backend, adquiriendo conocimientos fundamentales en <b>SQL</b> y <b>MySQL</b>. Contribuí al desarrollo de diversas APIs de la empresa.
+            </p>
+          </div> -->
+
+          <div class="timeline-item">
+            <div class="timeline-year">2023</div>
+            <h3 class="timeline-title">Frontend Developer</h3>
+            <p class="timeline-desc">
+              Enfoque exclusivo en el desarrollo Frontend. Diseñé e implementé las interfaces de usuario para el
+              programa de cupones <b>Club Fibex</b> y mantuve los <b>landings</b> principales de Fibex y Club Fibex.
+            </p>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-year">2022</div>
+            <h3 class="timeline-title">Tester / Soporte Frontend</h3>
+            <p class="timeline-desc">
+              Comencé mi experiencia laboral en Fibex Telecom como Tester. Realicé pruebas de calidad (QA) y corrección
+              de <b>bugs</b> de baja complejidad en la plataforma web.
+            </p>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-year">2021</div>
+            <h3 class="timeline-title">Aprendiz</h3>
+            <p class="timeline-desc">
+              Inicio de mi trayectoria a los 15 años de edad, aprendiendo con <b>Jhonattan R.</b> como mentor
+              <b>TypeScript</b>, <b>Angular</b> y <b>CSS</b> a través de recursos en línea, foros y documentación.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Sección de estadísticas -->
+        <div style="margin-top:64px">
+          <h3 class="section-title">En números</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span class="stat-number">50+</span>
+              <span class="stat-label">Proyectos Completados</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number">5+</span>
+              <span class="stat-label">Años de Experiencia</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number">20+</span>
+              <span class="stat-label">Tecnologías Dominadas</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number">100%</span>
+              <span class="stat-label">Satisfacción del Cliente</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="galeria" class="reveal">
+      <div class="container">
+        <h2 class="section-title underline">Galería</h2>
+        <div class="gallery">
+          <figure class="glass"><img src="assets/images/photo-isael-1.jpg" alt="Isael con laptop" />
+            <figcaption style="padding:8px 10px;color:var(--muted)">Detrás de escena</figcaption>
+          </figure>
+          <figure class="glass"><img src="assets/images/photo-programming-machines.jpg" alt="Escritorio" />
+            <figcaption style="padding:8px 10px;color:var(--muted)">Stack de trabajo</figcaption>
+          </figure>
+          <figure class="glass"><img src="assets/images/photo-technology-on-an-event.png" alt="Evento" />
+            <figcaption style="padding:8px 10px;color:var(--muted)">Experiencia inmersiva</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacto" class="reveal">
+      <div class="container">
+        <h2 class="section-title underline">Contacto</h2>
+        <p class="prose">¿Colaboramos? <a href="#">isael@example.com</a></p>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">© <span id="y">2025</span> Isael Requena — Full‑Stack. Ocean tech + Liquid Glass +
+        Three.js.</div>
+    </footer>
+  </main>
+
+  <!-- Modal Liquid Glass -->
+  <div class="modal-backdrop" id="modal">
+    <div class="modal glass">
+      <h3 style="margin-top:0">Hola 👋</h3>
+      <p class="prose">Modal con <strong>Liquid Glass</strong>. Úsalo para formularios y vistas rápidas.</p>
+      <div style="margin-top:16px;display:flex;gap:10px;justify-content:flex-end">
+        <button class="btn" id="closeModal" type="button">Cerrar</button>
+        <a class="btn primary" href="#proyectos">Ir a proyectos</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js" defer></script>
+</body>
+
+</html>

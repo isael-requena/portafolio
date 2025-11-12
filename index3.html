@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Isael Requena — Full‑Stack</title>
+  <meta name="description" content="Portafolio de Isael Requena, Full‑Stack. Dark-first con animación 3D con Three.js (tema oceánico) y Liquid Glass." />
+
+  <!-- Three.js -->
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js" defer></script>
+
+  <style>
+    :root{
+      color-scheme: dark light;
+      /* Paleta océano profundo */
+      --bg: #05070b;          /* más oscuro */
+      --bg-elev:#08101a;
+      --text:#eaf2ff;
+      --muted:#9fb4d8;
+      --accent:#67b7ff;      /* azul agua */
+      --accent-2:#2b8dff;    /* azul intenso */
+      --glass: rgba(10,18,30,.42);
+      --glass-border: rgba(103,183,255,.35);
+      --border:#132035;
+      --shadow:0 18px 60px rgba(0,0,0,.48);
+    }
+    #theme-toggle:checked ~ .page{--bg:#f7f9fc;--bg-elev:#ffffff;--text:#0b1220;--muted:#4b5a74;--accent:#2563eb;--accent-2:#1640b5;--glass:rgba(255,255,255,.48);--glass-border:rgba(36,99,235,.25);--border:#e6eaf3;color-scheme:light dark}
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:radial-gradient(140vmax 120vmax at 50% 0%, #061023 0%, var(--bg) 55%) fixed; color:var(--text); font:500 16px/1.6 Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* Toggle tema */
+    #theme-toggle{display:none}
+    .theme-switch{position:fixed;z-index:60;inset:18px auto auto 18px;display:grid;place-items:center;width:50px;height:50px;border:1px solid var(--border);border-radius:999px;background:linear-gradient(180deg,var(--bg-elev),rgba(255,255,255,.02));box-shadow:var(--shadow);backdrop-filter:blur(14px) saturate(130%)}
+    .theme-switch span{font-size:20px;transition:transform .4s ease}
+    #theme-toggle:checked + label.theme-switch span{transform:rotate(180deg)}
+
+    /* Fondo tecnológico */
+    #bg3d{position:fixed;inset:0;z-index:-3;background:transparent}
+
+    /* Manchas azules con opacidades variadas (atmósfera oceánica) */
+    .blue-blobs{position:fixed;inset:-20vmax;z-index:-2;pointer-events:none;filter:saturate(125%) blur(1.2px);opacity:.98;background:
+      radial-gradient(80vmax 60vmax at 18% 14%, rgba(100,170,255,.28), transparent 60%),
+      radial-gradient(80vmax 60vmax at 78% 12%, rgba(70,150,255,.18), transparent 60%),
+      radial-gradient(70vmax 50vmax at 82% 78%, rgba(42,130,255,.22), transparent 58%),
+      radial-gradient(70vmax 50vmax at 28% 82%, rgba(140,200,255,.12), transparent 60%),
+      radial-gradient(120vmax 100vmax at 50% 90%, rgba(10,30,60,.65), transparent 70%);
+      animation: blobsFloat 30s ease-in-out infinite alternate;
+    }
+    @keyframes blobsFloat{0%{transform:translate3d(0,-2%,0) scale(1.02)}100%{transform:translate3d(0,2%,0) scale(1.04)}}
+
+    /* Retícula muy sutil, casi imperceptible */
+    .grid-overlay{position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:
+      linear-gradient(transparent 97%, rgba(124,192,255,.045) 97%),
+      linear-gradient(90deg, transparent 97%, rgba(124,192,255,.045) 97%);
+      background-size:28px 28px,28px 28px;opacity:.18;mask-image:radial-gradient(70vmax 70vmax at 50% 55%, black 35%, transparent 100%);animation:gridDrift 32s linear infinite}
+    @keyframes gridDrift{from{transform:translateY(0)}to{transform:translateY(-28px)}}
+
+    /* Liquid Glass utilitario */
+    .glass{position:relative;background:var(--glass);border:1px solid var(--glass-border);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,.35)}
+    .glass::after{content:"";position:absolute;inset:-2px;border-radius:inherit;background:conic-gradient(from 0deg at 50% 50%, rgba(124,192,255,.0), rgba(124,192,255,.28), rgba(124,192,255,.0) 30%);filter:blur(10px);opacity:.75;mix-blend-mode:screen;animation:liquid 6s linear infinite}
+    @keyframes liquid{to{transform:rotate(360deg)}}
+
+    .container{width:min(1120px,92vw);margin-inline:auto}
+
+    /* Header: transparente → glass al hacer scroll */
+    header.nav{position:sticky;top:0;z-index:40;border-bottom:1px solid transparent;transition:all .35s ease}
+    header.nav .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 8px}
+    header.nav.scrolled{border-color:var(--border)}
+    header.nav.scrolled .bar{background:var(--glass);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border:1px solid var(--glass-border)}
+    .bar{border-radius:16px;padding:10px 14px;transition:inherit}
+
+    .brand{display:flex;gap:10px;align-items:center;font-weight:800;letter-spacing:.3px}
+    .brand .dot{width:10px;height:10px;border-radius:999px;background:var(--accent);box-shadow:0 0 20px var(--accent)}
+    .nav-links{display:flex;gap:12px}
+    .chip{padding:6px 12px;border-radius:999px;border:1px solid var(--border)}
+
+    .hero{padding:clamp(72px,9vw,120px) 0 64px}
+    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:42px;align-items:center}
+    @media (max-width:920px){.hero-grid{grid-template-columns:1fr}}
+    .headline{font-size:clamp(34px,5vw,62px);line-height:1.05;font-weight:900}
+    .grad{background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .sub{color:var(--muted);max-width:60ch;margin-top:14px}
+
+    .cta-row{display:flex;gap:14px;margin-top:26px;flex-wrap:wrap}
+    .btn{padding:14px 18px;border-radius:14px;border:1px solid var(--border);background:linear-gradient(180deg,var(--bg-elev),rgba(255,255,255,.02));box-shadow:var(--shadow);font-weight:700}
+    .btn.primary{background:linear-gradient(180deg,color-mix(in oklab,var(--accent) 45%, transparent),color-mix(in oklab,var(--accent-2) 30%, transparent));border-color:color-mix(in oklab,var(--accent) 50%, var(--border))}
+
+    /* Perfil con slider */
+    .profile-card{padding:12px;border-radius:22px;transform:rotateX(8deg) rotateY(-6deg);transform-origin:70% 30%}
+    .profile-card .viewport{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:4/5}
+    .profile-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1s ease}
+    .profile-card img.active{opacity:1}
+    .tag{position:absolute;right:16px;bottom:16px;padding:6px 10px;font-size:12px;border-radius:999px;background:color-mix(in oklab,var(--accent) 25%, var(--bg));border:1px solid var(--border)}
+
+    section{padding:88px 0}
+    .section-title{font-size:clamp(22px,3.2vw,34px);margin-bottom:18px}
+    .prose{color:var(--muted);max-width:70ch}
+
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+    .card{grid-column:span 4;min-height:240px;padding:18px;position:relative;overflow:clip}
+    .card h3{margin:6px 0 8px}
+    .card p{color:var(--muted)}
+    .card .thumb{position:absolute;right:10px;bottom:10px;width:min(46%,280px);opacity:.9;border-radius:10px;mix-blend-mode:screen;filter:drop-shadow(0 8px 24px rgba(124,192,255,.35))}
+    @media (max-width:980px){.card{grid-column:span 6}}
+    @media (max-width:620px){.card{grid-column:span 12}}
+
+    .gallery{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;margin-top:24px}
+    .gallery figure{grid-column:span 4;margin:0;border-radius:16px;overflow:clip}
+    .gallery img{width:100%;display:block;object-fit:cover;aspect-ratio:16/10}
+    @media (max-width:980px){.gallery figure{grid-column:span 6}}
+    @media (max-width:620px){.gallery figure{grid-column:span 12}}
+
+    @keyframes reveal{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+    .reveal{opacity:0;animation:reveal both ease-out;animation-timeline:view(block);animation-range:entry 20% cover 30%}
+
+    .modal-backdrop{position:fixed;inset:0;display:none;place-items:center;background:rgba(5,8,13,.35);backdrop-filter:blur(2px);z-index:80}
+    .modal-backdrop.show{display:grid}
+    .modal{width:min(680px,92vw);padding:24px}
+
+    footer{padding:40px 0 80px;color:var(--muted);border-top:1px solid var(--border);margin-top:80px}
+
+    @keyframes underline{from{background-size:0% 2px}to{background-size:100% 2px}}
+    .underline{background:linear-gradient(90deg,var(--accent),var(--accent-2)) no-repeat left bottom/0% 2px;padding-bottom:4px;animation:underline both ease-out;animation-timeline:view(block);animation-range:entry 15% cover 20%}
+  </style>
+</head>
+<body>
+  <canvas id="bg3d" aria-hidden="true"></canvas>
+  <div class="blue-blobs" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <input id="theme-toggle" type="checkbox" aria-label="Cambiar tema" />
+  <label class="theme-switch" for="theme-toggle" title="Cambiar tema"><span>☀️/🌙</span></label>
+
+  <main class="page">
+    <header class="nav" id="topNav">
+      <div class="container bar">
+        <div class="nav-inner">
+          <div class="brand"><span class="dot"></span><span>Isael Requena</span></div>
+          <nav class="nav-links">
+            <a class="chip" href="#sobre">Sobre mí</a>
+            <a class="chip" href="#proyectos">Proyectos</a>
+            <a class="chip" href="#galeria">Galería</a>
+            <a class="chip" href="#contacto">Contacto</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <h1 class="headline reveal">Hola, soy <span class="grad">Isael Requena</span> — <span class="grad">Full‑Stack Developer</span></h1>
+          <p class="sub reveal" style="animation-delay:.1s">Tema <strong>océano</strong>: fondo profundo, manchas azules con distintas opacidades, blur de vidrio líquido y animación 3D que responde al scroll.</p>
+          <div class="cta-row reveal" style="animation-delay:.18s">
+            <a class="btn primary" href="#proyectos">Ver proyectos</a>
+            <button class="btn" id="openModal" type="button">Abrir modal</button>
+          </div>
+        </div>
+        <aside class="profile-card glass reveal" style="animation-delay:.15s">
+          <div class="viewport" id="profileSlider">
+            <img src="assets/images/profile-photo.png" alt="Isael — perfil" class="active"/>
+            <!-- <img src="assets/images/photo-isael-1.jpg" alt="Isael con laptop"/> -->
+            <img src="assets/images/photo-technology-on-an-event.png" alt="Evento tech"/>
+            <img src="assets/images/photo-programming-machines.jpg" alt="Setup de trabajo"/>
+            <span class="tag">Disponible · Remoto / Híbrido</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="sobre" class="reveal">
+      <div class="container">
+        <h2 class="section-title underline">Sobre mí</h2>
+        <p class="prose">Desarrollador full‑stack orientado a UX moderna. El efecto oceánico usa partículas, ondas y burbujas en Three.js; el UI aplica <em>Liquid Glass</em> para profundidad sin perder legibilidad.</p>
+      </div>
+    </section>
+
+    <section id="proyectos" class="reveal">
+      <div class="container">
+        <h2 class="section-title underline">Proyectos destacados</h2>
+        <div class="grid" style="margin-top:18px">
+          <article class="card glass">
+            <h3>Dashboard en tiempo real</h3>
+            <p>Tarjetas con vidrio líquido y foco en densidad de datos.</p>
+            <img class="thumb" src="assets/images/photo-programming-machines.jpg" alt="Pantallas de código" />
+          </article>
+          <article class="card glass">
+            <h3>Experiencia inmersiva</h3>
+            <p>Capas y parallax asistido por Three.js + CSS.</p>
+            <img class="thumb" src="assets/images/photo-technology-on-an-event.png" alt="Ambiente inmersivo" />
+          </article>
+          <article class="card glass">
+            <h3>Portal corporativo</h3>
+            <p>Tokens de diseño, temas y accesibilidad.</p>
+            <img class="thumb" src="assets/images/photo-isael-1.jpg" alt="Retrato" />
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="galeria" class="reveal">
+      <div class="container">
+        <h2 class="section-title underline">Galería (discreta)</h2>
+        <div class="gallery">
+          <figure class="glass"><img src="assets/images/photo-isael-1.jpg" alt="Isael con laptop" /><figcaption style="padding:8px 10px;color:var(--muted)">Detrás de escena</figcaption></figure>
+          <figure class="glass"><img src="assets/images/photo-programming-machines.jpg" alt="Escritorio" /><figcaption style="padding:8px 10px;color:var(--muted)">Stack de trabajo</figcaption></figure>
+          <figure class="glass"><img src="assets/images/photo-technology-on-an-event.png" alt="Evento" /><figcaption style="padding:8px 10px;color:var(--muted)">Experiencia inmersiva</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacto" class="reveal">
+      <div class="container">
+        <h2 class="section-title underline">Contacto</h2>
+        <p class="prose">¿Colaboramos? <a href="#">isael@example.com</a></p>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">© <span id="y">2025</span> Isael Requena — Full‑Stack. Ocean tech + Liquid Glass + Three.js.</div>
+    </footer>
+  </main>
+
+  <!-- Modal Liquid Glass -->
+  <div class="modal-backdrop" id="modal">
+    <div class="modal glass">
+      <h3 style="margin-top:0">Hola 👋</h3>
+      <p class="prose">Modal con <strong>Liquid Glass</strong>. Úsalo para formularios y vistas rápidas.</p>
+      <div style="margin-top:16px;display:flex;gap:10px;justify-content:flex-end">
+        <button class="btn" id="closeModal" type="button">Cerrar</button>
+        <a class="btn primary" href="#proyectos">Ir a proyectos</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Header transparente -> glass
+    const nav=document.getElementById('topNav');
+    const onScroll=()=>{if(window.scrollY>6) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');};
+    document.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+    // Modal
+    const modal=document.getElementById('modal');
+    document.getElementById('openModal').onclick=()=>modal.classList.add('show');
+    document.getElementById('closeModal').onclick=()=>modal.classList.remove('show');
+    modal.addEventListener('click',e=>{if(e.target===modal) modal.classList.remove('show');});
+
+    // Slider
+    const slider=document.getElementById('profileSlider');
+    const imgs=[...slider.querySelectorAll('img')];
+    let idx=0; setInterval(()=>{imgs[idx].classList.remove('active'); idx=(idx+1)%imgs.length; imgs[idx].classList.add('active');}, 3500);
+
+    // THREE.JS — ANIMACIÓN "OCÉANO" (más compleja)
+    // Capas: Malla de ondas + Anillos de energía + Burbujas
+    window.addEventListener('DOMContentLoaded',()=>{
+      const canvas=document.getElementById('bg3d');
+      const renderer=new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+      const scene=new THREE.Scene();
+      scene.fog=new THREE.Fog(0x041021, 120, 420);
+      const camera=new THREE.PerspectiveCamera(55,1,0.1,2000); camera.position.set(0,10,120);
+
+      // Luz tenue azul
+      const light=new THREE.PointLight(0x5ab0ff, 1.2, 600); light.position.set(40,80,60); scene.add(light);
+
+      // 1) Malla de ondas (puntos) con desplazamiento sinusoidal
+      const W=160, H=90, SP=2.2; // tamaño malla
+      const waveGeo=new THREE.BufferGeometry();
+      const wavePositions=new Float32Array(W*H*3);
+      let k=0; for(let y=0;y<H;y++){for(let x=0;x<W;x++){wavePositions[k++]= (x-W/2)*SP; wavePositions[k++]= (y-H/2)*SP; wavePositions[k++]= 0;}}
+      waveGeo.setAttribute('position', new THREE.BufferAttribute(wavePositions,3));
+      const waveMat=new THREE.PointsMaterial({ size: 0.9, color:0x6fbaff, transparent:true, opacity:0.55});
+      const waves=new THREE.Points(waveGeo, waveMat); waves.rotation.x=-Math.PI*0.36; scene.add(waves);
+
+      // 2) Anillos de energía (torus/knots como líneas, additive)
+      const rings=new THREE.Group();
+      function ring(r,color,rot){
+        const geo=new THREE.TorusKnotGeometry(r, r*0.12, 220, 32, 2, 3);
+        const mat=new THREE.LineBasicMaterial({ color, transparent:true, opacity:0.22 });
+        const lines=new THREE.LineSegments(new THREE.WireframeGeometry(geo), mat);
+        lines.rotation.set(rot.x, rot.y, rot.z);
+        rings.add(lines);
+      }
+      ring(18, 0x7cc3ff, new THREE.Euler(0.2,0.0,0.0));
+      ring(26, 0x3aa2ff, new THREE.Euler(-0.3,0.5,0.2));
+      ring(34, 0x93d0ff, new THREE.Euler(0.15,-0.6,0.4));
+      scene.add(rings);
+
+      // 3) Burbujas ascendentes (InstancedMesh)
+      const bubbleGeo=new THREE.SphereGeometry(0.8, 12, 12);
+      const bubbleMat=new THREE.MeshBasicMaterial({ color:0x9ed4ff, transparent:true, opacity:0.35});
+      const BUB=260; const bubbles=new THREE.InstancedMesh(bubbleGeo, bubbleMat, BUB); scene.add(bubbles);
+      const bData=new Array(BUB).fill(0).map(()=>({x:(Math.random()-0.5)*220, y:-80-Math.random()*200, z:(Math.random()-0.5)*220, s:0.6+Math.random()*1.6, v:0.15+Math.random()*0.6}));
+
+      // Tamaño & resize
+      function resize(){ const w=window.innerWidth,h=window.innerHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
+      window.addEventListener('resize', resize); resize();
+
+      // Control por scroll: 0..1
+      let s=0; const updateScroll=()=>{ s = window.scrollY / (document.body.scrollHeight - window.innerHeight); };
+      document.addEventListener('scroll', updateScroll, { passive:true }); updateScroll();
+
+      let t=0; const tmp=new THREE.Object3D();
+      function tick(){
+        t+=0.016;
+        // Ondas: desplazar Z con dos frecuencias y factor de scroll (como corriente)
+        const pos=waveGeo.attributes.position.array; let i=0;
+        for(let y=0;y<H;y++){
+          for(let x=0;x<W;x++){
+            const px=(x-W/2)*0.18, py=(y-H/2)*0.22;
+            const z = Math.sin(px*2.2 + t*1.4 + s*6.0) * 2.0 + Math.cos(py*1.8 - t*1.1 + s*8.0) * 1.6;
+            pos[i+2]= z; i+=3;
+          }
+        }
+        waveGeo.attributes.position.needsUpdate = true;
+        waves.rotation.z = s * Math.PI * 0.2;
+
+        // Anillos: orbitan/pulsan con scroll
+        rings.rotation.y += 0.002 + s*0.01; rings.rotation.x = 0.15 + Math.sin(t*0.6)*0.04;
+        rings.scale.setScalar(1 + Math.sin(t*0.9 + s*6)*0.03);
+
+        // Burbujas: suben; vel depende de scroll
+        // for(let j=0;j<BUB;j++){
+        //   const b=bData[j]; b.y += (b.v + s*1.6); if(b.y>120){ b.y=-120 - Math.random()*120; b.x=(Math.random()-0.5)*220; b.z=(Math.random()-0.5)*220; }
+        //   tmp.position.set(b.x, b.y, b.z); tmp.scale.set(b.s,b.s,b.s); tmp.updateMatrix(); bubbles.setMatrixAt(j, tmp.matrix);
+        // }
+        bubbles.instanceMatrix.needsUpdate = true;
+
+        renderer.render(scene,camera);
+        requestAnimationFrame(tick);
+      }
+      tick();
+    });
+  </script>
+</body>
+</html>
