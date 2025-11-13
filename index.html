@@ -9,7 +9,18 @@
     content="Portafolio de Isael Requena, Full‑Stack. Dark-first con animación 3D con Three.js (tema oceánico) y Liquid Glass." />
 
   <!-- Three.js -->
-  <script src="https://unpkg.com/three@0.160.0/build/three.min.js" defer></script>
+  <!-- <script src="https://unpkg.com/three@0.160.0/build/three.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/three-orbitcontrols@2.110.3/OrbitControls.min.js" defer></script>
+  <script src="https://unpkg.com/three@0.160.0/examples/js/loaders/GLTFLoader.js" defer></script>
+  <script src="https://unpkg.com/three@0.160.0/examples/js/controls/OrbitControls.js" defer></script> -->
+  <!-- Three.js principal -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- GLTFLoader -->
+  <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/loaders/GLTFLoader.js"></script>
+
+  <!-- OrbitControls -->
+  <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/controls/OrbitControls.js"></script>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -59,8 +70,8 @@
         </div>
         <aside class="profile-card glass reveal" style="animation-delay:.15s">
           <div class="viewport" id="profileSlider">
-            <img src="assets/images/profile-photo.png" alt="Isael — perfil" class="active" />
-            <img src="assets/images/photo-technology-on-an-event.png" alt="Evento tech" />
+            <img src="assets/images/profile-photo.jpg" alt="Isael — perfil" class="active" />
+            <img src="assets/images/photo-technology-on-an-event.jpg" alt="Evento tech" />
             <img src="assets/images/photo-programming-machines.jpg" alt="Setup de trabajo" />
             <span class="tag">Disponible · Remoto / Híbrido</span>
           </div>
@@ -71,22 +82,33 @@
     <section id="sobre" class="reveal">
       <div class="container">
         <h2 class="section-title underline">Sobre mí</h2>
-        <p class="prose">
-          Soy un <b>Desarrollador Full-Stack</b> venezolano con 4 años de experiencia enfocado en la entrega de soluciones web, aplicativos móviles y canales en Roku funcionales y eficientes.
-        </p>
+        
+        <!-- Nueva estructura con grid -->
+        <div class="sobre-grid">
+          <!-- Contenedor del modelo 3D (izquierda) -->
+          <div id="pc-3d-container"></div>
+          
+          <!-- Contenedor del texto (derecha) -->
+          <div class="sobre-content">
+            <p class="prose">
+              Soy un <b>Desarrollador Full-Stack</b> venezolano con 4 años de experiencia enfocado en la entrega de soluciones web, aplicativos móviles y canales en Roku funcionales y eficientes.
+            </p>
 
-        <p class="prose">
-          Mi trayectoria profesional se ha desarrollado íntegramente en Fibex Telecom, comenzando mi formación en TypeScript, Angular y CSS en 2021. Gracias a un crecimiento acelerado y al Ing. <b>Jhonattan Ramírez</b> como mentor, he transitado roles de Testing y Frontend exclusivo, hasta alcanzar la posición de Full-Stack Developer con dominio en lógica Backend.
-        </p>
-        <p class="prose">
-          Mi mayor logro incluye la responsabilidad directa del desarrollo Frontend y Backend de la pasarela de pagos, demostrando mi capacidad para gestionar proyectos de alta complejidad.
-        </p>
-        <p class="prose">
-          "Todo lo puedo en Cristo que me fortalece."
-          <br>
-          <i>Filipenses 4:13</i>
-          <!-- <i> "Con Dios cada día mejorando, nunca paro de aprender en esta vida" </i>☄️. -->
-        </p>
+            <p class="prose">
+              Mi trayectoria profesional se ha desarrollado íntegramente en Fibex Telecom, comenzando mi formación en TypeScript, Angular y CSS en 2021. Gracias a un crecimiento acelerado y al Ing. <b>Jhonattan Ramírez</b> como mentor, he transitado roles de Testing y Frontend exclusivo, hasta alcanzar la posición de Full-Stack Developer con dominio en lógica Backend.
+            </p>
+            
+            <p class="prose">
+              Mi mayor logro incluye la responsabilidad directa del desarrollo Frontend y Backend de la pasarela de pagos, demostrando mi capacidad para gestionar proyectos de alta complejidad.
+            </p>
+            
+            <p class="prose">
+              "Todo lo puedo en Cristo que me fortalece."
+              <br>
+              <i>Filipenses 4:13</i>
+            </p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -260,7 +282,7 @@
           <article class="card glass">
             <h3>Experiencia inmersiva</h3>
             <p>Capas y parallax asistido por Three.js + CSS.</p>
-            <img class="thumb" src="assets/images/photo-technology-on-an-event.png" alt="Ambiente inmersivo" />
+            <img class="thumb" src="assets/images/photo-technology-on-an-event.jpg" alt="Ambiente inmersivo" />
           </article>
           <article class="card glass">
             <h3>Portal corporativo</h3>
@@ -358,7 +380,7 @@
           <figure class="glass"><img src="assets/images/photo-programming-machines.jpg" alt="Escritorio" />
             <figcaption style="padding:8px 10px;color:var(--muted)">Stack de trabajo</figcaption>
           </figure>
-          <figure class="glass"><img src="assets/images/photo-technology-on-an-event.png" alt="Evento" />
+          <figure class="glass"><img src="assets/images/photo-technology-on-an-event.jpg" alt="Evento" />
             <figcaption style="padding:8px 10px;color:var(--muted)">Experiencia inmersiva</figcaption>
           </figure>
         </div>
@@ -391,6 +413,7 @@
   </div>
 
   <script src="main.js" defer></script>
+  <script src="pc-3d.js" defer></script>
 </body>
 
 </html>
